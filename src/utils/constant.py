@@ -1,0 +1,1 @@
+TMP_PATH = "/tmp/advent_of_code_2025/"
