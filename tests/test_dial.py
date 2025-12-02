@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 import pytest
 
-from dial import Dial
+from engine.dial import Dial
 
 
 class TestDialSimple:
