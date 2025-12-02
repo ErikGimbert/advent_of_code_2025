@@ -1,5 +1,8 @@
 {
     "editor.formatOnSave": true,
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src"
+    ],
     "python.testing.pytestPath": "${workspaceFolder}/.venv/bin/pytest",
     "python.testing.cwd": "${workspaceFolder}/tests",
     "python.testing.pytestEnabled": true,

@@ -5,3 +5,10 @@ description = "Advent of code 2025"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=9.0.1"]
+
+[tool.pytest.ini_options]
+pythonpath = "./src"
+testpaths = ["./tests"]
