@@ -9,7 +9,6 @@
         "**/.venv": true,
         "**/.pytest_cache": true,
         ".vscode": true,
-        ".gitignore": true,
         ".python-version": true,
         "uv.lock": true
     },
