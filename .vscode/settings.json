@@ -1,4 +1,18 @@
 {
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+        "**/.venv": true,
+        "**/.pytest_cache": true,
+        ".vscode": true,
+        ".gitignore": true,
+        ".python-version": true,
+        "uv.lock": true
+    },
     "editor.formatOnSave": true,
     "python.analysis.extraPaths": [
         "${workspaceFolder}/src"
