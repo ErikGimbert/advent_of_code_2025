@@ -1,5 +1,7 @@
 from typing import NamedTuple
 
+import pytest
+
 from dial import Dial
 
 
@@ -87,4 +89,53 @@ class TestDialMultipleTurns:
             assert self.dial.value == turn.expected_value
 
     def test_count_zeros(self):
-        assert self.dial.count_zeros == 3
+        assert self.dial.count_zeros_ending == 3
+
+
+# ===========================================================================
+# MARK: Part Two
+# ===========================================================================
+
+
+class TestDial2MultipleTurns:
+    dial = Dial(50)
+    turns: list[Turn] = [
+        Turn("L68", 82),
+        Turn("L30", 52),
+        Turn("R48", 0),
+        Turn("L5", 95),
+        Turn("R60", 55),
+        Turn("L55", 0),
+        Turn("L1", 99),
+        Turn("L99", 0),
+        Turn("R14", 14),
+        Turn("L82", 32),
+    ]
+
+    def test_multiple_turns(self):
+        for turn in self.turns:
+            self.dial.turn(turn.command)
+            assert self.dial.value == turn.expected_value
+
+    def test_count_zeros(self):
+        assert self.dial.count_zeros == 6
+
+
+class TestDial2CircleCrossing:
+    @pytest.mark.parametrize(
+        "initial,command,expected_value,expected_zeros",
+        [
+            (50, "L1000", 50, 10),
+            (50, "R951", 1, 10),
+            (50, "R950", 0, 10),
+            (50, "R949", 99, 9),
+            (25, "L524", 1, 5),
+            (25, "L525", 0, 6),
+            (25, "L526", 99, 6),
+        ],
+    )
+    def test(self, initial, command, expected_value, expected_zeros):
+        dial = Dial(initial)
+        dial.turn(command)
+        assert dial.value == expected_value
+        assert dial.count_zeros == expected_zeros

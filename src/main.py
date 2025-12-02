@@ -7,8 +7,7 @@ def day1():
     dial = Dial(50)
     for command in commands:
         dial.turn(command)
-    print(f"Day 1: Final dial value is {dial.value}")
-    print(f"Day 1: Dial landed on zero {dial.count_zeros} times.")
+    print(f"Day 1: Dial crossed zero {dial.count_zeros} times.")
 
 
 def main():
