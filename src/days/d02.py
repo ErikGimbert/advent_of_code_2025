@@ -1,6 +1,5 @@
 import itertools
 import re
-from functools import reduce
 from typing import Iterator
 
 from utils.file import file_to_list
@@ -61,7 +60,3 @@ def run():
     ids_range = load_data("./inputs/day_02.txt")
     result = sum_invalid_ids_v2(ids_range)
     pr_day(2, "Part Two: Sum of invalid IDs:", result)
-
-
-if __name__ == "__main__":
-    run()

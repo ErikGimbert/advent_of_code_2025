@@ -2,7 +2,7 @@ from typing import NamedTuple
 
 import pytest
 
-from engine.dial import Dial
+from days.d01 import Dial
 
 # ===========================================================================
 # MARK: Day 1 Part One

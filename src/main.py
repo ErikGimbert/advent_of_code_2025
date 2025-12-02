@@ -7,7 +7,7 @@ from days import list_days, run_day
 
 def main():
     print(
-        f"\n{colorama.Fore.GREEN}Hello from 🎄 advent-of-code-2025 🎄{colorama.Style.RESET_ALL}"
+        f"\n{colorama.Fore.GREEN}Hello from 🎄 advent-of-code-2025 🎄{colorama.Style.RESET_ALL}\n"
     )
     loaded_days = list_days()
 
@@ -23,9 +23,16 @@ def main():
         choices=loaded_days,
         default=loaded_days[-1],
     )
+    parser.add_argument(
+        "-a", "--all", action="store_true", help="Run all days sequentially"
+    )
     args = parser.parse_args()
 
-    run_day(args.day)
+    if args.all:
+        for day in loaded_days:
+            run_day(day)
+    else:
+        run_day(args.day)
 
     print(f"\n{colorama.Fore.GREEN}🎉 All done! 🎉{colorama.Style.RESET_ALL}\n")
 
