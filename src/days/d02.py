@@ -2,8 +2,8 @@ import itertools
 import re
 from typing import Iterator
 
+import utils.print as pr
 from utils.file import file_to_list
-from utils.print import pr_day
 
 
 def load_data(file_path: str) -> Iterator[tuple[int, int]]:
@@ -54,9 +54,9 @@ def sum_invalid_ids_v2(ids_range: Iterator[tuple[int, int]]) -> int:
 def run():
     ids_range = load_data("./inputs/day_02.txt")
     result = sum_invalid_ids(ids_range)
-    pr_day(2, "Part One: Sum of invalid IDs:", result)
+    pr.day(2, "Part One: Sum of invalid IDs:", result)
 
     # Part Two
     ids_range = load_data("./inputs/day_02.txt")
     result = sum_invalid_ids_v2(ids_range)
-    pr_day(2, "Part Two: Sum of invalid IDs:", result)
+    pr.day(2, "Part Two: Sum of invalid IDs:", result)

@@ -1,7 +1,7 @@
 import re
 
+import utils.print as pr
 from utils.file import file_to_list
-from utils.print import pr_day
 
 _RE_COMMAND = re.compile(r"^(L|R)([0-9]+)$")
 
@@ -77,5 +77,5 @@ def run():
     dial = Dial(50)
     for command in commands:
         dial.turn(command)
-    pr_day(1, "Part One: Dial ended zero", dial.count_zeros_ending, "times.")
-    pr_day(1, "Part Two: Dial crossed zero", dial.count_zeros, "times.")
+    pr.day(1, "Part One: Dial ended zero", dial.count_zeros_ending, "times.")
+    pr.day(1, "Part Two: Dial crossed zero", dial.count_zeros, "times.")

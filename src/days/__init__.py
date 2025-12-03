@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 
-from utils.print import pr_info
+import utils.print as pr
 
 
 def list_days() -> list[int]:
@@ -17,7 +17,7 @@ def list_days() -> list[int]:
 
 def run_day(day: int) -> None:
     """Run the specified day's function."""
-    pr_info(f"Running Day {day}...")
+    pr.info(f"Running Day {day}...")
     module = __import__(f"days.d{day:02}", fromlist=["run"])
     module.run()
     print()  # Add a newline after running the day
