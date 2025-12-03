@@ -3,6 +3,8 @@ import re
 import utils.print as pr
 from utils.file import file_to_list
 
+DAY: int = 1
+DAY_PADDED = f"{DAY:02d}"
 _RE_COMMAND = re.compile(r"^(L|R)([0-9]+)$")
 
 
@@ -72,10 +74,15 @@ class Dial:
             self.__count_zeros += units // 100
 
 
+# ==============================================================
+# MARK: Main function
+# ==============================================================
+
+
 def run():
-    commands = file_to_list("./inputs/day_01.txt")
+    commands = file_to_list(f"./inputs/day_{DAY_PADDED}.txt")
     dial = Dial(50)
     for command in commands:
         dial.turn(command)
-    pr.day(1, "Part One: Dial ended zero", dial.count_zeros_ending, "times.")
-    pr.day(1, "Part Two: Dial crossed zero", dial.count_zeros, "times.")
+    pr.day(DAY, "Part One: Dial ended zero", dial.count_zeros_ending, "times.")
+    pr.day(DAY, "Part Two: Dial crossed zero", dial.count_zeros, "times.")

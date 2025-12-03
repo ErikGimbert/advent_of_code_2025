@@ -5,6 +5,9 @@ from typing import Iterator
 import utils.print as pr
 from utils.file import file_to_list
 
+DAY: int = 2
+DAY_PADDED = f"{DAY:02d}"
+
 
 def load_data(file_path: str) -> Iterator[tuple[int, int]]:
     ids_range = file_to_list(file_path, sep=",")
@@ -15,6 +18,10 @@ def load_data(file_path: str) -> Iterator[tuple[int, int]]:
         except ValueError as e:
             raise ValueError(f"Invalid range: {r}, error: {e}")
 
+
+# ==============================================================
+# MARK: Part One
+# ==============================================================
 
 RE_INVALID_ID = re.compile(r"^(\d+)\1$")
 
@@ -30,7 +37,7 @@ def sum_invalid_ids(ids_range: Iterator[tuple[int, int]]) -> int:
 
 
 # ==============================================================
-# Part Two
+# MARK: Part Two
 # ==============================================================
 
 RE_INVALID_ID_V2 = re.compile(r"^(\d+)\1+$")
@@ -47,16 +54,16 @@ def sum_invalid_ids_v2(ids_range: Iterator[tuple[int, int]]) -> int:
 
 
 # ==============================================================
-# Main function
+# MARK: Main function
 # ==============================================================
 
 
 def run():
-    ids_range = load_data("./inputs/day_02.txt")
+    ids_range = load_data(f"./inputs/day_{DAY_PADDED}.txt")
     result = sum_invalid_ids(ids_range)
-    pr.day(2, "Part One: Sum of invalid IDs:", result)
+    pr.day(DAY, "Part One: Sum of invalid IDs:", result)
 
     # Part Two
-    ids_range = load_data("./inputs/day_02.txt")
+    ids_range = load_data(f"./inputs/day_{DAY_PADDED}.txt")
     result = sum_invalid_ids_v2(ids_range)
-    pr.day(2, "Part Two: Sum of invalid IDs:", result)
+    pr.day(DAY, "Part Two: Sum of invalid IDs:", result)
