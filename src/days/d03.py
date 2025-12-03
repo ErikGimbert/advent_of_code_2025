@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Final, Iterator
 
 import utils.print as pr
 from utils.file import file_to_list
@@ -39,8 +39,23 @@ def p1_max_joltage(bank: str) -> int:
 
 
 def part_two(banks: Iterator) -> int:
-    # TODO implement part two
-    return 0
+    """Sum of max joltage for each bank"""
+    return sum(map(p2_max_joltage, banks))
+
+
+def p2_max_joltage(bank: str) -> int:
+    """Calculate the maximum joltage for a given bank string."""
+    batteries = [int(x) for x in bank]
+    len_bank = len(batteries)
+    NB_DIGITS: Final[int] = 12
+    prev_idx = -1
+    res: str = ""
+    for i in range(NB_DIGITS):
+        digit = max(batteries[prev_idx + 1 : len_bank - (NB_DIGITS - 1 - i)])
+        prev_idx = batteries.index(digit, prev_idx + 1)
+        res += str(digit)
+
+    return int(res)
 
 
 # ==============================================================
@@ -54,6 +69,6 @@ def run():
     pr.day(DAY, "Part One: ", result)
 
     # Part Two
-    # banks = load_data(f"./inputs/day_{DAY_PADDED}.txt")
-    # result = part_two(banks)
-    # pr.day(DAY, "Part Two: ", result)
+    banks = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    result = part_two(banks)
+    pr.day(DAY, "Part Two: ", result)

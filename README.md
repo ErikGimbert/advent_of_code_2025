@@ -2,12 +2,6 @@
 
 Link: https://adventofcode.com/2025
 
-## Story
-
-* [Day 1](./_story/day_01.md)
-* [Day 2](./_story/day_02.md)
-
-
 ## Init python env
 
 * **In VSCode**: `F1` > `Task: Run Build Task`
