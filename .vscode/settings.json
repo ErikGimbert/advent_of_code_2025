@@ -23,4 +23,7 @@
         "tests"
     ],
     "python.testing.unittestEnabled": false,
+    "cSpell.words": [
+        "joltage"
+    ],
 }
