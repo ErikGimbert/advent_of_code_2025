@@ -12,7 +12,7 @@ def pr_info(message: str) -> None:
     Args:
         message (str): The message to print.
     """
-    decoration = DECORATION[randint(0, len(DECORATION) - 1)]
+    decoration = choice(DECORATION)
     print(f"{decoration} {message}")
 
 
