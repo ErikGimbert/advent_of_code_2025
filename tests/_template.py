@@ -9,12 +9,16 @@ from tests.utils import with_tmp_file
 
 
 class TestLoadData:
-    def test_load_data(self):
+    def test_load_from_tmp(self):
         def f(file_path: str) -> None:
             result = list(load_data(file_path))
             assert result == []
 
         with_tmp_file("""""")(f)()
+
+    def test_load_input(self):
+        result = list(load_data())
+        assert len(result) > 1000
 
 
 # TODO add tests for part one

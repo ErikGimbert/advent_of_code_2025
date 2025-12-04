@@ -44,7 +44,7 @@ echo -n "    Creating test file: $new_day_test_file ..."
 if [[ -f "$new_day_test_file" ]]; then
     echo -e " ${YELLOW}already exists.${NC}"
 else
-    cat tests/_template_test.py | sed "s/from days._template import/from days.d${new_day_padded} import/g" > "$new_day_test_file"
+    cat tests/_template.py | sed "s/from days._template import/from days.d${new_day_padded} import/g" > "$new_day_test_file"
     if [[ $? -ne 0 ]]; then
         echo -e " ${RED}Error creating test file.${NC}"
         exit 1
