@@ -1,14 +1,15 @@
+from pathlib import Path
 from typing import Final, Iterator
 
 import utils.print as pr
-from utils.file import file_to_list
+from utils import file
 
 DAY: int = 3
 DAY_PADDED = f"{DAY:02d}"
 
 
-def load_data(file_path: str) -> Iterator:
-    input = file_to_list(file_path)
+def load_data(file_path: str | Path) -> Iterator:
+    input = file.to_list(file_path)
     return input
 
 
@@ -64,11 +65,14 @@ def p2_max_joltage(bank: str) -> int:
 
 
 def run():
-    banks = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    input_path = file.input_path(DAY)
+
+    # Part One
+    banks = load_data(input_path)
     result = part_one(banks)
     pr.day(DAY, "Part One: ", result)
 
     # Part Two
-    banks = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    banks = load_data(input_path)
     result = part_two(banks)
     pr.day(DAY, "Part Two: ", result)

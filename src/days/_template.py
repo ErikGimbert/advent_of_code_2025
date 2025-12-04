@@ -1,14 +1,15 @@
+from pathlib import Path
 from typing import Iterator
 
 import utils.print as pr
-from utils.file import file_to_list
+from utils import file
 
 DAY: int = 0
 DAY_PADDED = f"{DAY:02d}"
 
 
-def load_data(file_path: str) -> Iterator:
-    input = file_to_list(file_path)
+def load_data(file_path: str | Path = file.input_path(DAY)) -> Iterator:
+    input = file.to_list(file_path)
     # TODO implement data loading
     return input
 
@@ -39,11 +40,12 @@ def part_two(input: Iterator) -> int:
 
 
 def run():
-    input = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    # Part One
+    input = load_data()
     result = part_one(input)
     pr.day(DAY, "Part One: ", result)
 
     # Part Two
-    # input = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    # input = load_data()
     # result = part_two(input)
     # pr.day(DAY, "Part Two: ", result)

@@ -1,1 +1,1 @@
-TMP_PATH = "/tmp/advent_of_code_2025/"
+PUZZLE_PATH = "../puzzles/data/"

@@ -1,16 +1,17 @@
 import itertools
 import re
+from pathlib import Path
 from typing import Iterator
 
 import utils.print as pr
-from utils.file import file_to_list
+from utils import file
 
 DAY: int = 2
 DAY_PADDED = f"{DAY:02d}"
 
 
-def load_data(file_path: str) -> Iterator[tuple[int, int]]:
-    ids_range = file_to_list(file_path, sep=",")
+def load_data(file_path: str | Path) -> Iterator[tuple[int, int]]:
+    ids_range = file.to_list(file_path, sep=",")
     for r in ids_range:
         try:
             a, b = r.split("-")
@@ -59,11 +60,12 @@ def sum_invalid_ids_v2(ids_range: Iterator[tuple[int, int]]) -> int:
 
 
 def run():
-    ids_range = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    input_path = file.input_path(DAY)
+    ids_range = load_data(input_path)
     result = sum_invalid_ids(ids_range)
     pr.day(DAY, "Part One: Sum of invalid IDs:", result)
 
     # Part Two
-    ids_range = load_data(f"./inputs/day_{DAY_PADDED}.txt")
+    ids_range = load_data(input_path)
     result = sum_invalid_ids_v2(ids_range)
     pr.day(DAY, "Part Two: Sum of invalid IDs:", result)

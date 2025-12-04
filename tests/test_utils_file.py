@@ -2,14 +2,14 @@ from typing import Any
 
 import pytest
 
-from src.utils.file import file_to_list
+from src.utils.file import to_list
 from tests.utils import with_tmp_file
 
 
 def test_file_to_list1():
     def f(file_path: str) -> Any:
         # Call the function to test
-        result = list(file_to_list(file_path))
+        result = list(to_list(file_path))
 
         # Assert the result
         assert result == ["line1", "line2", "line3"]
@@ -20,7 +20,7 @@ def test_file_to_list1():
 def test_file_to_list2():
     def f(file_path: str) -> Any:
         # Call the function to test
-        result = list(file_to_list(file_path, sep=","))
+        result = list(to_list(file_path, sep=","))
 
         # Assert the result
         assert result == [
@@ -53,7 +53,7 @@ def test_file_to_list2():
 def test_file_to_list3(content, expected):
     def f(file_path: str) -> Any:
         # Call the function to test
-        result = list(file_to_list(file_path, sep=","))
+        result = list(to_list(file_path, sep=","))
 
         # Assert the result
         assert result == expected
@@ -66,7 +66,7 @@ def test_file_to_list_big():
 
     def f(file_path: str) -> Any:
         # Call the function to test
-        result = list(file_to_list(file_path))
+        result = list(to_list(file_path))
 
         # Assert the result
         assert result.count("A") == 5000

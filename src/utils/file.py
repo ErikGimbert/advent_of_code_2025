@@ -1,9 +1,12 @@
+from pathlib import Path
 from typing import Iterator
+
+from utils.constant import PUZZLE_PATH
 
 CHUNK_SIZE = 1024  # 1 kB
 
 
-def file_to_list(file_path: str, sep: str = "\n") -> Iterator[str]:
+def to_list(file_path: str | Path, sep: str = "\n") -> Iterator[str]:
     """Read a file and yield its content split by the given separator."""
     buffer = ""
     with open(file_path, "r") as file:
@@ -24,3 +27,8 @@ def file_to_list(file_path: str, sep: str = "\n") -> Iterator[str]:
                     break
                 else:
                     yield part
+
+
+def input_path(day: int) -> Path:
+    """Construct the file path for the input data of a given year and day."""
+    return Path(PUZZLE_PATH) / "2025" / f"{day:02d}" / "input.txt"

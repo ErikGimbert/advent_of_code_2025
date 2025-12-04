@@ -1,7 +1,7 @@
 import re
 
 import utils.print as pr
-from utils.file import file_to_list
+from utils import file
 
 DAY: int = 1
 DAY_PADDED = f"{DAY:02d}"
@@ -80,7 +80,7 @@ class Dial:
 
 
 def run():
-    commands = file_to_list(f"./inputs/day_{DAY_PADDED}.txt")
+    commands = file.to_list(file.input_path(DAY))
     dial = Dial(50)
     for command in commands:
         dial.turn(command)

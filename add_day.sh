@@ -14,7 +14,7 @@ else
     last_day=$(echo "$last_day_file" | sed -E 's/.*\/d([0-9]+)\.py/\1/')
 fi
 echo "Last existing day: $last_day"
-if [[ -f "tests/test_day_$(printf "%02d" $last_day).py" && ( ! -d "_story" || -f "_story/Day $(printf "%02d" $last_day) - Advent of Code 2025.html" ) ]]; then
+if [[ -f "tests/test_day_$(printf "%02d" $last_day).py" ]]; then
     new_day=$((last_day + 1))
 else
     echo -e "${YELLOW}Warning: Some files was missing for day $last_day. Try to fix them before adding a new day.${NC}"
@@ -23,6 +23,7 @@ fi
 new_day_padded=$(printf "%02d" "$new_day")
 echo "Creating files for day: $new_day"
 
+# Create source file
 new_day_src_file="src/days/d${new_day_padded}.py"
 echo -n "    Creating source file: $new_day_src_file ..."
 if [[ -f "$new_day_src_file" ]]; then
@@ -37,6 +38,7 @@ else
     fi
 fi
 
+# Create test file
 new_day_test_file="tests/test_day_${new_day_padded}.py"
 echo -n "    Creating test file: $new_day_test_file ..."
 if [[ -f "$new_day_test_file" ]]; then
@@ -51,20 +53,5 @@ else
     fi
 fi
 
-if [[ -d "_story" ]]; then
-    new_day_story_file="_story/Day $new_day_padded - Advent of Code 2025.html"
-    echo -n "    Creating story file: $new_day_story_file ..."
-    if [[ -f "$new_day_story_file" ]]; then
-        echo -e " ${YELLOW}already exists.${NC}"
-    else
-        cat _story/files/template.html | sed "s/{{ day }}/$new_day/g" > "$new_day_story_file"
-        if [[ $? -ne 0 ]]; then
-            echo -e " ${RED}Error creating story file.${NC}"
-            exit 1
-        else
-            echo -e " ${GREEN}done.${NC}"
-        fi
-    fi
-fi
-
+# Final message
 echo -e "${GREEN}All done! Happy coding for day $new_day!${NC}"
