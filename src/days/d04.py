@@ -64,6 +64,10 @@ class Grid:
         """Mark the roll at (x, y) as accessible."""
         self.__gird[y][x] = RollState.ROLL_ACCESSIBLE
 
+    def mark_as_none(self, x: int, y: int) -> None:
+        """Mark the cell at (x, y) as none."""
+        self.__gird[y][x] = RollState.NONE
+
     def neighbors(
         self, x: int, y: int, state: Optional[RollState | set[RollState]] = None
     ) -> list[tuple[int, int, RollState]]:
@@ -130,9 +134,23 @@ def part_one(input: Grid) -> int:
 # ==============================================================
 
 
-def part_two(input: Iterator) -> int:
-    # TODO implement part two
-    return 0
+def remove_accessible_rolls(grid: Grid) -> int:
+    count = 0
+    for x, y, state in grid:
+        if state == RollState.ROLL_ACCESSIBLE:
+            grid.mark_as_none(x, y)
+            count += 1
+    return count
+
+
+def part_two(input: Grid) -> int:
+    total_removed = 0
+    while True:
+        mark_accessible_rolls(input)
+        removed = remove_accessible_rolls(input)
+        if removed == 0:
+            return total_removed
+        total_removed += removed
 
 
 # ==============================================================
@@ -147,6 +165,6 @@ def run():
     pr.day(DAY, "Part One: ", result)
 
     # Part Two
-    # input = load_data()
-    # result = part_two(input)
-    # pr.day(DAY, "Part Two: ", result)
+    input = load_data()
+    result = part_two(input)
+    pr.day(DAY, "Part Two: ", result)
