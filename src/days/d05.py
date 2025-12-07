@@ -153,6 +153,5 @@ def run():
     pr.day(DAY, "Part One: ", result)
 
     # Part Two
-    input = load_data()
     result = part_two(input)
     pr.day(DAY, "Part Two: ", result)
