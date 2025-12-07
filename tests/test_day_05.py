@@ -45,16 +45,25 @@ class TestLoadData:
 
 class TestPartOne:
     EXAMPLE_EXPECTED = {
-        # TODO add example input data
+        1: "spoiled",
+        5: "fresh",
+        8: "spoiled",
+        11: "fresh",
+        17: "fresh",
+        32: "spoiled",
     }
 
     @pytest.mark.parametrize(
         "input",
-        EXAMPLE,
+        EXAMPLE_SPLIT.available_ids,
     )
     def test_example(self, input):
-        result = 0  # TODO replace with processing call
-        # assert result == self.EXAMPLE_EXPECTED[input]
+        result = "fresh" if EXAMPLE_SPLIT.is_fresh(input) else "spoiled"
+        assert result == self.EXAMPLE_EXPECTED[input]
+
+    def test_count_fresh(self):
+        result = EXAMPLE_SPLIT.count_fresh()
+        assert result == 3
 
 
 # ===========================================================================
