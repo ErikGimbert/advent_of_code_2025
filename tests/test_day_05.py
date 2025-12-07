@@ -72,4 +72,11 @@ class TestPartOne:
 
 
 class TestPartTwo:
-    pass
+    def test_possible_fresh_ingredients(self):
+        result = EXAMPLE_SPLIT._for_test_possible_fresh_ingredients()
+        expected = set([3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+        assert result == expected
+
+    def test_count_possible_fresh_ingredients(self):
+        result = EXAMPLE_SPLIT.count_possible_fresh_ingredients()
+        assert result == 14

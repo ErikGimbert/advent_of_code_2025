@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Any, Iterator
 
 import utils.print as pr
 from utils import file
@@ -12,6 +11,7 @@ class DataBase:
     _ranges: list[tuple[int, int]]
     _available_ids: list[int]
     _is_finalized: bool = False
+    _merged_ranges: list[tuple[int, int]] | None = None
 
     def __init__(
         self,
@@ -23,11 +23,11 @@ class DataBase:
 
     def add_range(self, range_tuple: tuple[int, int]) -> None:
         self._ranges.append(range_tuple)
-        self._is_finalized = False
+        self._not_finalized()
 
     def add_available_id(self, available_id: int) -> None:
         self._available_ids.append(available_id)
-        self._is_finalized = False
+        self._not_finalized()
 
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, DataBase):
@@ -44,6 +44,11 @@ class DataBase:
         self._ranges.sort()
         self._available_ids.sort()
         self._is_finalized = True
+
+    def _not_finalized(self) -> None:
+        """Mark the object as not finalized (for internal use) and clear cached data."""
+        self._is_finalized = False
+        self._merged_ranges = None
 
     @property
     def available_ids(self) -> list[int]:
@@ -70,6 +75,39 @@ class DataBase:
             if self.is_fresh(id):
                 count += 1
         return count
+
+    # === MARK: Part Two methods
+
+    def _merge_ranges(self) -> None:
+        """Merge overlapping ranges."""
+        if self._merged_ranges is not None:
+            return
+        self._finalize_init()
+        merged: list[tuple[int, int]] = []
+        for start, end in self._ranges:
+            if not merged or merged[-1][1] < start - 1:
+                merged.append((start, end))
+            else:
+                merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        self._merged_ranges = merged
+
+    def _for_test_possible_fresh_ingredients(self) -> set[int]:
+        """Generate all possible fresh ingredient IDs."""
+        self._merge_ranges()
+        result = set()
+        for start, end in self._ranges:
+            for id in range(start, end + 1):
+                result.add(id)
+        return result
+
+    def count_possible_fresh_ingredients(self) -> int:
+        """Count all possible fresh ingredient IDs."""
+        self._merge_ranges()
+        assert self._merged_ranges is not None  # for type checker
+        result = 0
+        for start, end in self._merged_ranges:
+            result += end - start + 1
+        return result
 
 
 def load_data(file_path: str | Path = file.input_path(DAY)) -> DataBase:
@@ -100,8 +138,7 @@ def part_one(input: DataBase) -> int:
 
 
 def part_two(input: DataBase) -> int:
-    # TODO implement part two
-    return 0
+    return input.count_possible_fresh_ingredients()
 
 
 # ==============================================================
@@ -116,6 +153,6 @@ def run():
     pr.day(DAY, "Part One: ", result)
 
     # Part Two
-    # input = load_data()
-    # result = part_two(input)
-    # pr.day(DAY, "Part Two: ", result)
+    input = load_data()
+    result = part_two(input)
+    pr.day(DAY, "Part Two: ", result)
