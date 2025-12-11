@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal
 
 import utils.print as pr
 from utils import file
@@ -21,6 +21,11 @@ class Problem:
             return False
         # Operations are bijective, so ideally we should sort numbers before comparing (but not necessary for puzzle solving)
         return self._operator == value._operator and self._numbers == value._numbers
+
+    def __repr__(self) -> str:
+        return (
+            f"Problem({self._operator!r}, {', '.join(repr(n) for n in self._numbers)})"
+        )
 
     def len(self) -> int:
         return len(self._numbers)
@@ -59,6 +64,9 @@ class Homework:
             return False
         return self._problems == value._problems
 
+    def __repr__(self) -> str:
+        return f"Homework({', '.join(repr(p) for p in self._problems)})"
+
     def len(self) -> int:
         return len(self._problems)
 
@@ -79,6 +87,12 @@ class Homework:
         """Sum the computations of all problems."""
         return sum(problem.compute() for problem in self._problems)
 
+    # === Part Two methods ===
+
+    def append_problem(self, problem: Problem) -> None:
+        """Append a new problem to the homework."""
+        self._problems.append(problem)
+
 
 def load_data(file_path: str | Path = file.input_path(DAY)) -> Homework:
     input = file.to_list(file_path)
@@ -90,6 +104,34 @@ def load_data(file_path: str | Path = file.input_path(DAY)) -> Homework:
                 homework.set_operator(col_index, part)
             else:
                 homework.add_number(col_index, int(part))
+    return homework
+
+
+def load_data_2(file_path: str | Path = file.input_path(DAY)) -> Homework:
+    input = file.to_list(file_path)
+    cols: list[list[str]] = []
+    for line in input:
+        for idx, char in enumerate(reversed(list(line))):
+            if idx > len(cols) - 1:
+                cols.append([])
+            cols[idx].append(char)
+    homework = Homework()
+    problem = Problem()
+    for col in cols:
+        if all(c == " " for c in col):
+            # new problem
+            if problem.len() > 0:
+                homework.append_problem(problem)
+                problem = Problem()
+            continue
+        op = col.pop()
+        if op in ("+", "*"):
+            problem.set_operator(op)
+        # doesn't remove spaces, but int() will handle that and detect if input is wrong (ex: "1 2")
+        problem.append(int("".join(col)))
+
+    if problem.len() > 0:
+        homework.append_problem(problem)
     return homework
 
 
@@ -108,8 +150,7 @@ def part_one(input: Homework) -> int:
 
 
 def part_two(input: Homework) -> int:
-    raise NotImplementedError  # TODO implement part two
-    return 0
+    return input.sum_computations()
 
 
 # ==============================================================
@@ -125,6 +166,7 @@ def run():
 
     # Part Two
     try:
+        input = load_data_2()
         result = part_two(input)
         pr.day(DAY, "Part Two: ", result)
     except NotImplementedError:

@@ -1,13 +1,14 @@
 import pytest
 
-from days.d06 import Homework, Problem, load_data
+from days.d06 import Homework, Problem, load_data, load_data_2
 from tests.utils import with_tmp_file
 
 # ===========================================================================
 # MARK: Load Data
 # ===========================================================================
 
-EXAMPLE = """123 328  51 64 
+EXAMPLE = """
+123 328  51 64 
  45 64  387 23 
   6 98  215 314
 *   +   *   +  
@@ -64,6 +65,45 @@ class TestPartOne:
 # MARK: Part Two
 # ===========================================================================
 
+EXAMPLE_SPLIT_2 = Homework(
+    Problem("+", 4, 431, 623),
+    Problem("*", 175, 581, 32),
+    Problem("+", 8, 248, 369),
+    Problem("*", 356, 24, 1),
+)
+
+
+class TestLoadData2:
+    def test_load_from_tmp(self):
+        def f(file_path: str) -> None:
+            result = load_data_2(file_path)
+            print(repr(result))
+            assert result == EXAMPLE_SPLIT_2
+            assert result.len() == 4
+            for problem in result._problems:
+                assert problem.len() == 3
+
+        with_tmp_file(EXAMPLE)(f)()
+
+    def test_load_input(self):
+        result = load_data()
+        assert result.len() > 10
+
 
 class TestPartTwo:
-    pass
+    EXAMPLE_EXPECTED = [
+        (Problem("+", 4, 431, 623), 1058),
+        (Problem("*", 175, 581, 32), 3253600),
+        (Problem("+", 8, 248, 369), 625),
+        (Problem("*", 356, 24, 1), 8544),
+    ]
+
+    @pytest.mark.parametrize(
+        "problem,expected",
+        EXAMPLE_EXPECTED,
+    )
+    def test_example(self, problem: Problem, expected: int):
+        assert problem.compute() == expected
+
+    def test_example_total(self):
+        assert EXAMPLE_SPLIT_2.sum_computations() == 3263827
